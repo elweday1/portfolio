@@ -1,10 +1,10 @@
 export const prerender = false;
 import type { APIRoute } from "astro";
-import { RESUME } from "@config";
+import { RESUME, SITE } from "@config";
 
 
 export const GET: APIRoute = async ({ redirect, clientAddress }) => {
-  fetch("/notify-resume", {
+  fetch(`${SITE.website}/notify-resume`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({clientAddress})
