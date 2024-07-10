@@ -1,24 +1,14 @@
 export const prerender = false;
 import type { APIRoute } from "astro";
 import { RESUME } from "@config";
-import YAML from 'yaml'
 
-const { TELEGRAM_BOT_TOKEN, MY_CHAT_ID } = import.meta.env;
-
-async function sendToMe(clientAddress: string){
-const response = await fetch(`http://ip-api.com/json/${clientAddress}`);
-  const data = (await response.json()) as IpData;
-  const msg = encodeURIComponent(YAML.stringify(data));
-  const endPoint = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${MY_CHAT_ID}&text=${msg}`;
-  
-  await fetch(endPoint, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-  });
-}
 
 export const GET: APIRoute = async ({ redirect, clientAddress }) => {
-  sendToMe(clientAddress); 
+  fetch("/notify-resume", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({clientAddress})
+  })
   return redirect(RESUME.normal);
 };
 
