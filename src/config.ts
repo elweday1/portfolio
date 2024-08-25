@@ -80,7 +80,7 @@ export const LOCALE = ["en-EN"];
 export const SOCIALS = [
   {
     name: "Github",
-    href: "https://github.com/elweday",
+    href: "https://github.com/elweday1",
     linkTitle: ` ${SITE.author} on Github`,
     active: true,
     icon: "mdi:github",
