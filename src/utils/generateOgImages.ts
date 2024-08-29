@@ -1,4 +1,5 @@
 import satori, { type SatoriOptions } from "satori";
+import { SITE } from "@config";
 import { Resvg } from "@resvg/resvg-js";
 import generateOG from "./og-templates/cover";
 import siteOgImage from "./og-templates/site";
@@ -6,21 +7,18 @@ import { type Collection } from "../types";
 
 const fetchFonts = async () => {
   // Regular Font
-  const fontFileRegular = await fetch(
-    "https://www.1001fonts.com/download/font/nunito.regular.ttf"
-  );
-  const fontRegular: ArrayBuffer = await fontFileRegular.arrayBuffer();
+  const logoFontFile = await fetch(SITE.website+ "/fonts/batman.ttf");
+  const logoFont: ArrayBuffer = await logoFontFile.arrayBuffer();
+  const textFontRegularFile = await fetch(SITE.website+ "/fonts/Kalam-Regular.ttf");
+  const textFontRegular: ArrayBuffer = await textFontRegularFile.arrayBuffer();
+  const textFontBoldFile = await fetch(SITE.website+ "/fonts/Kalam-Bold.ttf");
+  const textFontBold: ArrayBuffer = await textFontBoldFile.arrayBuffer();
 
-  // Bold Font
-  const fontFileBold = await fetch(
-    "https://www.1001fonts.com/download/font/nunito.bold.ttf"
-  );
-  const fontBold: ArrayBuffer = await fontFileBold.arrayBuffer();
 
-  return { fontRegular, fontBold };
+  return { logoFont, textFontRegular, textFontBold };
 };
 
-const { fontRegular, fontBold } = await fetchFonts();
+const { logoFont, textFontRegular, textFontBold } = await fetchFonts();
 
 const options: SatoriOptions = {
   width: 1200,
@@ -28,15 +26,21 @@ const options: SatoriOptions = {
   embedFont: true,
   fonts: [
     {
-      name: "Nunito",
-      data: fontRegular,
+      name: "batman",
+      data: logoFont,
       weight: 400,
       style: "normal",
     },
     {
-      name: "Nunito",
-      data: fontBold,
-      weight: 600,
+      name: "kalam",
+      data: textFontRegular,
+      weight: 400,
+      style: "normal",
+    },
+    {
+      name: "kalam-bold",
+      data: textFontBold,
+      weight: 700,
       style: "normal",
     },
   ],

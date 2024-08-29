@@ -1,7 +1,7 @@
 ---
 title: "GO Embed: An Interesting Way to Load Static Assets"
 slug: go-embed
-cover: "../media/gopher.png"
+cover: "/public/assets/media/gopher.png"
 dateTime: 2024-8-29T08:00:00Z
 tags:
   - golang
@@ -10,6 +10,8 @@ description: "Discussing how `embed` can improve the way we handle static assets
 ---
 
 ## Preamble
+
+## Image 
 
 Go has one of the most interesting standard libraries, and among its many features, the `embed` package stands out as a particularly useful tool. This article will explore how `embed` can improve the way we handle static assets in Go applications.
 
