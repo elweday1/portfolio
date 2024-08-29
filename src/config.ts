@@ -65,7 +65,7 @@ export const MESSAGE_OPTIONS = [
 
 export const RESUME = {
   normal:
-    "https://drive.google.com/file/d/1M85CHaDLbk6O8g6I6pTcMQz7dvNN0PPA/view",
+    "https://drive.google.com/file/d/18dNMu9h8MxWmr5pUI8QUCC7gs-SnW_2G/view",
   redcated: "",
 };
 export const PATHS = [
@@ -80,7 +80,7 @@ export const LOCALE = ["en-EN"];
 export const SOCIALS = [
   {
     name: "Github",
-    href: "https://github.com/elweday",
+    href: "https://github.com/elweday1",
     linkTitle: ` ${SITE.author} on Github`,
     active: true,
     icon: "mdi:github",
