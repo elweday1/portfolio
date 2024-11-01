@@ -17,6 +17,8 @@ const browser = await playwright.launch({
   executablePath: await chromium.executablePath(),
 });
 
+
+
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
@@ -35,7 +37,7 @@ export default defineConfig({
       [
         remarkMermaid,
         {
-          browserType: browser,
+          browserType: browser.browserType(),
           strategy: 'img-svg',
           dark: true,
         }
