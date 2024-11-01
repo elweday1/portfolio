@@ -10,6 +10,12 @@ import preload from "astro-preload";
 import vercel from "@astrojs/vercel/serverless";
 import remarkMermaid from 'remark-mermaidjs'
 import chromium from "@sparticuz/chromium";
+import { chromium as playwright } from "playwright";
+
+const browser = await playwright.launch({
+  args: chromium.args,
+  executablePath: await chromium.executablePath(),
+});
 
 // https://astro.build/config
 export default defineConfig({
@@ -29,7 +35,7 @@ export default defineConfig({
       [
         remarkMermaid,
         {
-          browserType: chromium,
+          browserType: browser,
           strategy: 'img-svg',
           dark: true,
         }
