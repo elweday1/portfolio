@@ -9,6 +9,7 @@ import compress from "astro-compress";
 import preload from "astro-preload";
 import vercel from "@astrojs/vercel/serverless";
 import remarkMermaid from 'remark-mermaidjs'
+import chromium from "@sparticuz/chromium";
 
 // https://astro.build/config
 export default defineConfig({
@@ -28,6 +29,7 @@ export default defineConfig({
       [
         remarkMermaid,
         {
+          browserType: chromium,
           strategy: 'img-svg',
           dark: true,
         }

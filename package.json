@@ -25,6 +25,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-tooltip": "^1.0.7",
     "@resvg/resvg-js": "^2.6.0",
+    "@sparticuz/chromium": "^130.0.0",
     "@types/alpinejs": "^3.13.6",
     "alpinejs": "^3.13.3",
     "astro": "^4.6.3",
