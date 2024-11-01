@@ -7,13 +7,15 @@ import { type Collection } from "../types";
 
 const fetchFonts = async () => {
   // Regular Font
-  const logoFontFile = await fetch(SITE.website+ "/fonts/batman.ttf");
-  const logoFont: ArrayBuffer = await logoFontFile.arrayBuffer();
-  const textFontRegularFile = await fetch(SITE.website+ "/fonts/Kalam-Regular.ttf");
-  const textFontRegular: ArrayBuffer = await textFontRegularFile.arrayBuffer();
-  const textFontBoldFile = await fetch(SITE.website+ "/fonts/Kalam-Bold.ttf");
-  const textFontBold: ArrayBuffer = await textFontBoldFile.arrayBuffer();
+  var enc = new TextEncoder(); // always utf-8
+  const {default: logoFontFile} = await import("/fonts/batman.ttf?raw");
+  const logoFont: ArrayBuffer = enc.encode(logoFontFile).buffer;
 
+  const {default: textFontRegularFile} = await import("/fonts/Kalam-Regular.ttf?raw");
+  const textFontRegular: ArrayBuffer = enc.encode(textFontRegularFile).buffer;
+
+  const {default:textFontBoldFile} = await import("/fonts/Kalam-Bold.ttf");
+  const textFontBold: ArrayBuffer = enc.encode(textFontBoldFile).buffer;
 
   return { logoFont, textFontRegular, textFontBold };
 };
