@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "pnpm exec playwright install --with-deps chromium; astro build ",
+    "build": "playwright install --with-deps; astro build ",
     "preview": "astro preview",
     "sync": "astro sync",
     "astro": "astro",

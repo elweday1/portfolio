@@ -28,9 +28,8 @@ export default defineConfig({
       [
         remarkMermaid,
         {
-          strategy: 'img-png',
+          strategy: 'img-svg',
           dark: true,
-          css: new URL("./src/styles/base.css", import.meta.url).href
         }
       ],
       [
