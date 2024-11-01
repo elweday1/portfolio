@@ -32,7 +32,7 @@ export default async (entry: Collection) => {
   const parsedUrl = new URL(entry.data.cover.src, 'https://example.com/'); // Base URL is needed for relative paths
   const pathname = parsedUrl.pathname;
   const filename = pathname.substring(pathname.lastIndexOf('/') + 1);
-  const cover = SITE.website + "/assets/media/" + filename;
+  const cover = SITE.website + "/public/assets/media/" + filename;
   const { titleSize, descSize } = calcFontSize(entry.data.title, entry.data.description);
   return (
     <div style={{ color: "rgba(255,255,255)", fontFamily: "kalam", width: "100%", height: "100%", position: "relative", display: "flex", backgroundColor: "black" }}>

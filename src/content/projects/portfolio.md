@@ -18,7 +18,7 @@ stack:
   - javascript
   - vercel
 
-cover: "/src/content/media/portfolio.jpg"
+cover: "/public/assets/media/portfolio.jpg"
 ---
 
 ## Astro

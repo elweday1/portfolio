@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 @media (prefers-reduced-motion: no-preference){
   img.animate  {
     scale: 0.85;
@@ -101,6 +102,11 @@
     prose-img:!mt-2 prose-img:rounded-xl   
     prose-img:border-skin-line prose-hr:!border-skin-line;
   }
+  [id^="mermaid"] {
+    @apply w-full justify-center h-full flex justify-self-center;
+
+  }
+  
   .prose h2 {
     @apply mt-2 !text-skin-accent;
   }

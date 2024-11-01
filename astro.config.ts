@@ -7,8 +7,8 @@ import sitemap from "@astrojs/sitemap";
 import { SITE, RESUME } from "./src/config";
 import compress from "astro-compress";
 import preload from "astro-preload";
-// @ts-expect-error
 import vercel from "@astrojs/vercel/serverless";
+import remarkMermaid from 'remark-mermaidjs'
 
 // https://astro.build/config
 export default defineConfig({
@@ -23,7 +23,16 @@ export default defineConfig({
     compress(),
   ],
   markdown: {
+    syntaxHighlight: "shiki",
     remarkPlugins: [
+      [
+        remarkMermaid,
+        {
+          strategy: 'img-png',
+          dark: true,
+          css: new URL("./src/styles/base.css", import.meta.url).href
+        }
+      ],
       [
         remarkToc,
         {
@@ -41,13 +50,15 @@ export default defineConfig({
       ],
       //[stripMarkdown, {}]
     ],
+    smartypants: true,
     shikiConfig: {
-      theme: "dracula",
       wrap: true,
+      themes: {"light": "github-light", "dark": "github-dark"},
     },
   },
   output: "hybrid",
   adapter: vercel(),
+
   vite: {
     optimizeDeps: {
       exclude: ["@resvg/resvg-js"],
