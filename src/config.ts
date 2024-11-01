@@ -1,5 +1,5 @@
 export const SITE = {
-  website: process.env.NODE_ENV === "production" ? "https://elweday.vercel.app" : "http://localhost:4321",
+  website: "http://localhost:4321",
   author: "Mohammed Nasser",
   authorDescription: `
   Hey, I'm Mohammed Nasser. I'm a full-stack developer.
