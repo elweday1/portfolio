@@ -34,7 +34,7 @@ const projects = defineCollection({
     baseItem.extend({
       endDate: z
         .date()
-        .or(z.enum(["Present"]))
+        .or(z.literal("Present"))
         .default("Present"),
       stack: z.array(z.enum(keys)).default([]),
       projectURL: z.string().url().optional(),

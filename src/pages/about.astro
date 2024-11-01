@@ -1,6 +1,5 @@
 ---
-export const prerender = false;
-import { MY_SHOWS, HOBBIES, RESUME, MESSAGE_OPTIONS } from "@config";
+import { MY_SHOWS, HOBBIES, MESSAGE_OPTIONS } from "@config";
 import MoviesGallery from "@components/MoviesGallery.astro";
 import Tooltip from "@components/StackIconTooltip.astro";
 import getShowsData from "@utils/shows";
@@ -43,7 +42,7 @@ const showsData = await getShowsData(import.meta.env.OMDB_API_KEY, MY_SHOWS);
           <label class="relative block">
             <select
               class="text-md block w-full justify-self-center rounded-lg border border-skin-fill border-opacity-40 bg-skin-card/30 bg-skin-fill px-[0.75rem] py-[0.32rem] invalid:text-slate-400/80 focus:border-skin-accent focus:outline-none"
-              name="message-type"
+              name="subject"
               onchange=""
               required
               autocomplete="off"
@@ -81,7 +80,7 @@ const showsData = await getShowsData(import.meta.env.OMDB_API_KEY, MY_SHOWS);
             </button>
             <a
               class="flex w-full place-items-center justify-center gap-2 place-self-center rounded-lg bg-skin-accent/30 px-4 py-2 text-lg transition-all hover:scale-[1.03] hover:bg-skin-accent/80"
-              href="/resume"
+              href="https://notify.elweday.workers.dev"
             >
               <Icon class="fill-skin-base" name="lucide:download" />
               <span> Resume</span>
@@ -186,19 +185,42 @@ const showsData = await getShowsData(import.meta.env.OMDB_API_KEY, MY_SHOWS);
   }
 
   const form = document.querySelector("#message-form");
-  form.addEventListener("submit", async e => {
+  form.addEventListener("submit", e => {
     e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
-    const res = await fetch("/contactme", {
-      method: "POST",
-      body: formData,
-    });
-    const resBody = await res.json();
-    form.reset();
+    const email = formData.get("email")
+    const subject = formData.get("subject")
+    const message = formData.get("message")
 
-    if (resBody.status == 200) {
-      notify(resBody.title, resBody.message);
+    const formDataObj = {
+      email,
+      subject,
+      message,
+      type: "message"
     }
+
+    fetch("https://notify.elweday.workers.dev/", {
+      method: "POST",
+      body: JSON.stringify(formDataObj),
+      headers: {
+        "Content-Type": "application/json",
+        "Allow-Control-Allow-Origin": "*"
+      }
+    }).then(async res => {
+      console.log(res)
+
+      const resBody = await res.json();
+        console.log(resBody)
+  
+        if (resBody.success) {
+          form.reset();
+  
+          notify(resBody.title, resBody.message);
+        }
+    }).catch(err => {
+      notify("Error", err.message);
+      console.log(err);
+    })
   });
 </script>

@@ -7,17 +7,25 @@ import sitemap from "@astrojs/sitemap";
 import { SITE, RESUME } from "./src/config";
 import compress from "astro-compress";
 import preload from "astro-preload";
-import vercel from "@astrojs/vercel/serverless";
 import remarkMermaid from 'remark-mermaidjs'
-import chromium from "@sparticuz/chromium";
 import { chromium as playwright } from "playwright";
 
-const browser = await playwright.launch({
-  args: chromium.args,
-  executablePath: await chromium.executablePath(),
-});
+
+async function getBrowserType(){
+  const {default: chromium} = await import("@sparticuz/chromium");
+  chromium.setHeadlessMode = true;
+
+  const browser = await playwright.launch({
+    args: chromium.args,
+    executablePath: await chromium.executablePath(),
+    headless: true,
+  });
+  
+  return browser.browserType()
+}
 
 
+playwright
 
 // https://astro.build/config
 export default defineConfig({
@@ -37,7 +45,7 @@ export default defineConfig({
       [
         remarkMermaid,
         {
-          browserType: browser.browserType(),
+          browserType: process.env.NODE_ENV === "production" ?  await getBrowserType(): undefined,
           strategy: 'img-svg',
           dark: true,
         }
@@ -65,8 +73,7 @@ export default defineConfig({
       themes: {"light": "github-light", "dark": "github-dark"},
     },
   },
-  output: "hybrid",
-  adapter: vercel(),
+  output: "static",
 
   vite: {
     optimizeDeps: {
