@@ -8,24 +8,6 @@ import { SITE, RESUME } from "./src/config";
 import compress from "astro-compress";
 import preload from "astro-preload";
 import remarkMermaid from 'remark-mermaidjs'
-import { chromium as playwright } from "playwright";
-
-
-async function getBrowserType(){
-  const {default: chromium} = await import("@sparticuz/chromium");
-  chromium.setHeadlessMode = true;
-
-  const browser = await playwright.launch({
-    args: chromium.args,
-    executablePath: await chromium.executablePath(),
-    headless: true,
-  });
-  
-  return browser.browserType()
-}
-
-
-playwright
 
 // https://astro.build/config
 export default defineConfig({
@@ -45,7 +27,6 @@ export default defineConfig({
       [
         remarkMermaid,
         {
-          browserType: process.env.NODE_ENV === "production" ?  await getBrowserType(): undefined,
           strategy: 'img-svg',
           dark: true,
         }
