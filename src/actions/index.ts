@@ -3,6 +3,7 @@ import { z } from 'astro:schema';
 import { redis } from 'db';
 import { sendMessage } from './telegram';
 
+type Answer = { question: string, answer: string, date: number, clientAddress: string }
 const questions = {
     ask: defineAction({
         input: z.object({
@@ -16,12 +17,17 @@ const questions = {
     }),
     getAll: async () =>  {
             const questions = await redis.smembers('questions');
-            const qa = await Promise.all(questions.map(async question => {
+            const answers: Answer[] = [];
+            await Promise.allSettled(questions.map(async question => {
                 const answerJson = await redis.get<string>(question);
-                const answer = JSON.parse(answerJson!);
-                return answer as { question: string, answer: string, date: number, clientAddress: string };
+                try {
+                    const answer = JSON.parse(answerJson!);
+                    answers.push(answer);
+                } catch (error) {
+                    return
+                }
             }));
-            return qa;
+            return answers;
     }
 }
 
