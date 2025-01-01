@@ -47,7 +47,9 @@ export const POST: APIRoute = async ({ request }) => {
       await actions.telegram.sendMessage(shareToTwitter(updateData));
       const question = updateData.message.reply_to_message.text;
       const answer = updateData.message.text;
-      await redis.set(question, answer);
+      const clientAddress = await redis.get(question);
+      const data = JSON.stringify({ answer, clientAddress, date: new Date().getTime() });
+      await redis.set(question, data);
       await redis.sadd('questions', question);
     }
     return new Response(updateData.message.text, { status: 200, headers }); 

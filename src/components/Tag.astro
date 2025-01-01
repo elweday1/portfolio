@@ -3,7 +3,7 @@
 import { slugifyStr } from "@utils/slugify";
 import Icon from "astro-icon";
 import { twMerge } from "tailwind-merge";
-import { hsl } from "./utils"; 
+import { hsl, quickHash } from "./utils"; 
 export interface Props {
   name: string;
   size?: "sm" | "lg";
@@ -39,9 +39,6 @@ if (type !== "all") {
     "data-tag": slugifyStr(name)
   }
 }
-
-const quickHash  = (s: string) => Array.from(s).reduce((a, b) => a + b.charCodeAt(0) * 17, 0) % 360;  
-
 
 const hueVal = quickHash(name);
 const colorPartial = hsl(hueVal, 30);

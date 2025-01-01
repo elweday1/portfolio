@@ -6,20 +6,22 @@ import { sendMessage } from './telegram';
 const questions = {
     ask: defineAction({
         input: z.object({
-            message: z.string(),
+            question: z.string(),
         }),
-        handler: async ({message}) => {
-            const res = await sendMessage(message);
+        handler: async ({ question }, { clientAddress}) => {
+            await redis.set(question, clientAddress);
+            const res = await sendMessage(question);
             return res;
         }
     }),
     getAll: async () =>  {
             const questions = await redis.smembers('questions');
             const qa = await Promise.all(questions.map(async question => {
-                const answer = await redis.get<string>(question);
-                return { question, answer };
+                const answerJson = await redis.get<string>(question);
+                const answer = JSON.parse(answerJson!);
+                return answer as { question: string, answer: string, date: number, clientAddress: string };
             }));
-            return qa as { question: string, answer: string }[];
+            return qa;
     }
 }
 

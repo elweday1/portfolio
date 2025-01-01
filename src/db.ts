@@ -5,3 +5,4 @@ export const redis = new Redis({
   url: KV_REST_API_URL,
   token: KV_REST_API_TOKEN,
 })
+

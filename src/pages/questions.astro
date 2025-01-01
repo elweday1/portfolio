@@ -3,9 +3,10 @@ import { Icon } from "astro-icon";
 import Layout from "@layouts/Layout.astro";
 import Question from "@components/QA.astro";
 import { server } from "actions";
+import { quickHash } from "@components/utils";
 
 const data = await server.questions.getAll();
-const QA = data.map(qa => ({ question: qa.question, answer: qa.answer, anon: Math.ceil(Math.random() * 300), answerDate: new Date() }));
+const QA = data.map(qa => ({ question: qa.question, answer: qa.answer, anon: quickHash(qa.clientAddress), answerDate: new Date(qa.date) }));
 ---
 
 <Layout title="About" description="Mohammed Nasser | Questions">
@@ -67,8 +68,8 @@ const QA = data.map(qa => ({ question: qa.question, answer: qa.answer, anon: Mat
       e.preventDefault();
       const form = e.target! as HTMLFormElement;
       const formData = new FormData(form);
-      const message = formData.get("message")! as string;
-      const { data, error } = await actions.questions.ask({ message });
+      const question = formData.get("message")! as string;
+      const { data, error } = await actions.questions.ask({ question });
       if (error) {
         toast("Error", error.message);
         return;
