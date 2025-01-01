@@ -1,0 +1,38 @@
+---
+import { Icon } from "astro-icon";
+import { hsl } from "./utils";
+import relativeTime from "@utils/relativeTime";
+
+
+interface Props {
+    data: {
+      question: string;
+      answer: string;
+      anon: number;
+      answerDate: Date
+    }
+}
+
+const { question, answer, anon, answerDate } = Astro.props.data;
+
+---
+<div class="w-full mx-auto bg-skin-card/10 rounded-lg">
+  <div class="p-6">
+    <div class="flex items-center space-x-2 mb-4" >
+      <div class="flex items-center space-x-1" style={{ color: hsl((anon * 17) % 360 )}}>
+        <Icon size={16} name="ph:user" />
+        <p class="font-semibold">{`anon${anon}: `}</p>
+      </div>
+      <p class="font-medium text-lg">{question}</p>
+    </div>
+    <div class="space-y-2">
+      <div class="bg-skin-card/30 p-2 rounded-lg">
+        <p class="text-foreground p-1">{answer}</p>
+        <div class="flex items-center space-x-2 opacity-70 mt-2 text-xs font-light w-full justify-end">
+          <Icon class="size-4" name="wi:time-4" />
+          <span>Answered {relativeTime(answerDate)}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

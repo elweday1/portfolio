@@ -5,22 +5,15 @@ import generateOG from "./og-templates/cover";
 import siteOgImage from "./og-templates/site";
 import { type Collection } from "../types"; 
 
-const fetchFonts = async () => {
-  // Regular Font
-  var enc = new TextEncoder(); // always utf-8
-  const {default: logoFontFile} = await import("/fonts/batman.ttf?raw");
-  const logoFont: ArrayBuffer = enc.encode(logoFontFile).buffer;
+const fontFileRegular = await fetch(
+  'https://www.1001fonts.com/download/font/kalam.ttf'
+)
 
-  const {default: textFontRegularFile} = await import("/fonts/Kalam-Regular.ttf?raw");
-  const textFontRegular: ArrayBuffer = enc.encode(textFontRegularFile).buffer;
-
-  const {default:textFontBoldFile} = await import("/fonts/Kalam-Bold.ttf");
-  const textFontBold: ArrayBuffer = enc.encode(textFontBoldFile).buffer;
-
-  return { logoFont, textFontRegular, textFontBold };
-};
-
-const { logoFont, textFontRegular, textFontBold } = await fetchFonts();
+async function fetchFont(fontUrl: string){
+  const res = await fetch(fontUrl);
+  const font = await res.arrayBuffer();
+  return font;
+}
 
 const options: SatoriOptions = {
   width: 1200,
@@ -29,19 +22,19 @@ const options: SatoriOptions = {
   fonts: [
     {
       name: "batman",
-      data: logoFont,
+      data: await fetchFont("https://www.1001fonts.com/download/font/kalam.ttf"),
       weight: 400,
       style: "normal",
     },
     {
       name: "kalam",
-      data: textFontRegular,
+      data: await fetchFont("https://www.1001fonts.com/download/font/kalam.bold.ttf"),
       weight: 400,
       style: "normal",
     },
     {
       name: "kalam-bold",
-      data: textFontBold,
+      data: await fetchFont("https://www.1001fonts.com/download/font/kalam.ttf"),
       weight: 700,
       style: "normal",
     },

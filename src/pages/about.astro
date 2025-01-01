@@ -1,5 +1,5 @@
 ---
-import { MY_SHOWS, HOBBIES, MESSAGE_OPTIONS } from "@config";
+import { MY_SHOWS, HOBBIES } from "@config";
 import MoviesGallery from "@components/MoviesGallery.astro";
 import Tooltip from "@components/StackIconTooltip.astro";
 import getShowsData from "@utils/shows";
@@ -19,208 +19,71 @@ const showsData = await getShowsData(import.meta.env.OMDB_API_KEY, MY_SHOWS);
         <h2 tabindex="0">
           Contact Me <Socials class="scale-100 place-self-start" />
         </h2>
-        <form id="message-form" class="flex flex-col gap-3">
-          <label class="relative block">
-            <span class="sr-only">Sender email.</span>
-
-            <span
-              class="absolute inset-y-0 left-0 flex items-center pl-2 opacity-75"
-            >
-              <Icon class="size-6 text-skin-base/50" name="ic:baseline-mail" />
-            </span>
-            <input
-              id="search-input"
-              class="text-md block w-full justify-self-center rounded-lg border border-skin-fill border-opacity-40 bg-skin-card/30 bg-skin-fill px-[0.75rem] py-[0.32rem] indent-8 placeholder:italic placeholder:text-slate-400/80 autofill:bg-skin-fill focus:border-skin-accent focus:outline-none"
-              placeholder="john@example.com"
-              type="email"
-              name="email"
-              onchange=""
-              autocomplete="on"
-              required
-            />
-          </label>
-          <label class="relative block">
-            <select
-              class="text-md block w-full justify-self-center rounded-lg border border-skin-fill border-opacity-40 bg-skin-card/30 bg-skin-fill px-[0.75rem] py-[0.32rem] invalid:text-slate-400/80 focus:border-skin-accent focus:outline-none"
-              name="subject"
-              onchange=""
-              required
-              autocomplete="off"
-            >
-              <option class="text-opacity-75" value="" disabled selected>
-                Choose message Subject...</option
-              >
-              {
-                MESSAGE_OPTIONS.map(({ name, icon }) => (
-                  <option value={name} class="text-lg font-bold">
-                    {name} <Icon class="size-8 bg-red-500" name={icon} />
-                  </option>
-                ))
-              }
-            </select>
-          </label>
-
-          <label class="relative block">
-            <span class="sr-only">Message content.</span>
-            <textarea
-              class="text-md block h-32 w-full justify-self-center rounded-lg border border-skin-fill border-opacity-40 bg-skin-card/30 bg-skin-fill px-[0.75rem] py-[0.32rem] placeholder:italic placeholder:text-slate-400/80 placeholder:text-opacity-75 focus:border-skin-accent focus:outline-none"
-              placeholder="Message..."
-              required
-              name="message"
-              autocomplete="off"></textarea>
-          </label>
-
-          <div class="flex gap-3">
-            <button
-              class="flex w-full place-items-center justify-center gap-2 place-self-center rounded-lg bg-skin-accent/30 px-4 py-2 text-lg transition-all hover:scale-[1.03] hover:bg-skin-accent/80"
-              type="submit"
-            >
-              <Icon class="" name="lucide:send" />
-              <span> Send</span>
-            </button>
-            <a
-              class="flex w-full place-items-center justify-center gap-2 place-self-center rounded-lg bg-skin-accent/30 px-4 py-2 text-lg transition-all hover:scale-[1.03] hover:bg-skin-accent/80"
-              href="https://notify.elweday.workers.dev"
-            >
-              <Icon class="fill-skin-base" name="lucide:download" />
-              <span> Resume</span>
-            </a>
-          </div>
-        </form>
-      </section>
-
-      <section id="tech-stack-section">
-        <h2 tabindex="0">Tech Stack</h2>
-        <ul class="flex flex-col gap-4">
-          {
-            Object.entries(techStackByType).map(([type, stack]) => {
-              return (
-                <li class="flex flex-col gap-1">
-                  <div class="flex flex-col gap-2 rounded-lg  bg-skin-fill p-5">
-                    <h3 aria- class=" font-bold">
-                      {type}
-                    </h3>
-                    <ul class="flex gap-4 overflow-visible overflow-x-auto rounded-lg p-2">
-                      {stack.map(({ name, icon, url, description }) => (
-                        <li>
-                          <Tooltip
-                            delayDuration={800}
-                            name={name}
-                            icon={icon}
-                            url={url}
-                            description={description}
-                          />
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
+        <section id="tech-stack-section">
+          <h2 tabindex="0">Tech Stack</h2>
+          <ul class="flex flex-col gap-4">
+            {
+              Object.entries(techStackByType).map(([type, stack]) => {
+                return (
+                  <li class="flex flex-col gap-1">
+                    <div class="flex flex-col gap-2 rounded-lg  bg-skin-fill p-5">
+                      <h3 aria- class=" font-bold">
+                        {type}
+                      </h3>
+                      <ul class="flex gap-4 overflow-visible overflow-x-auto rounded-lg p-2">
+                        {stack.map(({ name, icon, url, description }) => (
+                          <li>
+                            <Tooltip
+                              delayDuration={800}
+                              name={name}
+                              icon={icon}
+                              url={url}
+                              description={description}
+                            />
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </li>
+                );
+              })
+            }
+          </ul>
+        </section>
+        <section>
+          <h2 tabindex="0">Hobbies and Interests</h2>
+          <ul class="grid grid-cols-2 justify-center gap-3 sm:grid-cols-3">
+            {
+              HOBBIES.map(hobby => (
+                <li
+                  tabindex="0"
+                  class="flex gap-5 rounded-lg  bg-skin-fill px-5 py-2"
+                >
+                  <Icon name={hobby.icon} class="size-9" />
+                  <span class="place-self-center">{hobby.name}</span>
                 </li>
-              );
-            })
-          }
-        </ul>
-      </section>
-      <section>
-        <h2 tabindex="0">Hobbies and Interests</h2>
-        <ul class="grid grid-cols-2 justify-center gap-3 sm:grid-cols-3">
-          {
-            HOBBIES.map(hobby => (
-              <li
-                tabindex="0"
-                class="flex gap-5 rounded-lg  bg-skin-fill px-5 py-2"
-              >
-                <Icon name={hobby.icon} class="size-9" />
-                <span class="place-self-center">{hobby.name}</span>
-              </li>
-            ))
-          }
-        </ul>
-      </section>
-      <section>
-        <h2 tabindex="0">Movies and TV Suggestions</h2>
-        <MoviesGallery showsData={showsData} />
+              ))
+            }
+          </ul>
+        </section>
+        <section>
+          <h2 tabindex="0">Movies and TV Suggestions</h2>
+          <MoviesGallery showsData={showsData} />
+        </section>
       </section>
     </div>
   </article>
-</Layout>
 
-<style>
-  section {
-    @apply flex  w-full flex-col gap-2 justify-self-start;
-  }
-
-  h2 {
-    @apply text-start text-xl tracking-wider  sm:text-2xl;
-  }
-  .toast-title {
-    @apply text-xl font-bold text-skin-accent;
-  }
-</style>
-
-<script is:inline>
-  function notify(
-    title,
-    message,
-    variant = "primary",
-    icon = "info-circle",
-    duration = 8000
-  ) {
-    const closable = true;
-    const innerHTML = `
-      <div>
-        <h3 class="toast-title">${title}</h3>
-        <sl-icon name="${icon}" slot="icon"></sl-icon>
-        <span class="toast-message">${message}</span>
-      </div>
-    `;
-    const alertEl = document.createElement("sl-alert");
-    const alert = Object.assign(alertEl, {
-      variant,
-      closable,
-      duration,
-      innerHTML,
-    });
-    document.body.append(alert);
-    customElements.whenDefined("sl-alert").then(() => alert.toast());
-  }
-
-  const form = document.querySelector("#message-form");
-  form.addEventListener("submit", e => {
-    e.preventDefault();
-    const form = e.target;
-    const formData = new FormData(form);
-    const email = formData.get("email")
-    const subject = formData.get("subject")
-    const message = formData.get("message")
-
-    const formDataObj = {
-      email,
-      subject,
-      message,
-      type: "message"
+  <style>
+    section {
+      @apply flex  w-full flex-col gap-2 justify-self-start;
     }
 
-    fetch("https://notify.elweday.workers.dev/", {
-      method: "POST",
-      body: JSON.stringify(formDataObj),
-      headers: {
-        "Content-Type": "application/json",
-        "Allow-Control-Allow-Origin": "*"
-      }
-    }).then(async res => {
-      console.log(res)
-
-      const resBody = await res.json();
-        console.log(resBody)
-  
-        if (resBody.success) {
-          form.reset();
-  
-          notify(resBody.title, resBody.message);
-        }
-    }).catch(err => {
-      notify("Error", err.message);
-      console.log(err);
-    })
-  });
-</script>
+    h2 {
+      @apply text-start text-xl tracking-wider  sm:text-2xl;
+    }
+    .toast-title {
+      @apply text-xl font-bold text-skin-accent;
+    }
+  </style>
+</Layout>

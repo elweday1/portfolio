@@ -1,10 +1,10 @@
-import { defineConfig } from "astro/config";
+import { defineConfig, envField } from "astro/config";
 import tailwind from "@astrojs/tailwind";
 import react from "@astrojs/react";
 import remarkToc from "remark-toc";
 import remarkCollapse from "remark-collapse";
 import sitemap from "@astrojs/sitemap";
-import { SITE, RESUME } from "./src/config";
+import { SITE } from "./src/config";
 import compress from "astro-compress";
 import preload from "astro-preload";
 import remarkMermaid from 'remark-mermaidjs'
@@ -12,6 +12,13 @@ import remarkMermaid from 'remark-mermaidjs'
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
+  env: {
+    schema: {
+      TELEGRAM_BOT_TOKEN: envField.string({ context: "server", access: "secret" }),
+      MY_CHAT_ID: envField.number({ context: "server", access: "secret",  }),
+      OMDB_API_KEY: envField.string({ context: "server", access: "secret" }),
+    }
+  },
   integrations: [
     preload(),
     tailwind({

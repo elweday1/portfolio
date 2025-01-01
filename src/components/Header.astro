@@ -7,10 +7,7 @@ export interface Props {
   path?: string;
 }
 
-
-
 const currentPagePath = trim(Astro.url.pathname, "/").split("/");
-
 ---
 
 <header  class="h-fit sticky top-0 " >
@@ -50,7 +47,7 @@ const currentPagePath = trim(Astro.url.pathname, "/").split("/");
 
           <ul id="menu" class="sm:contents  flex flex-col w-full place-content-center place-items-center  p-2 ">
             {
-              PATHS.map(({name, path, icon}) => {
+              PATHS.map(({name, path}) => {
                 const isActive = currentPagePath.includes(trim(path, "/"))
                 return (
                   <li class="relative w-full ">

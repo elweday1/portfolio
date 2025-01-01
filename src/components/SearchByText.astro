@@ -1,14 +1,19 @@
 ---
-
+// UNDER CONSTRUCTION, WILL BE HIDDEN
 import { slugifyStr } from "@utils/slugify";
 import { getCollection } from "astro:content";
 import Datetime from "./Datetime.astro";
+import { Icon } from "astro-icon";
+import removeMd from "remove-markdown"; 
 
 
 const posts = await getCollection("blog");
 const projects = await getCollection("projects"); 
-const entries = [...posts, ...projects];
-import { Icon } from "astro-icon";
+const entries = [...posts, ...projects].map((entry)=>{
+  return {...entry, blob:  [entry.data.title, entry.data.description, removeMd(entry.body)].join("\n")}
+});
+
+
 ---
 
     <label  class="relative block">
@@ -35,10 +40,10 @@ import { Icon } from "astro-icon";
     <p id="number-of-results" class="text-skin-base/70 p-3 ">Search results</p>
     <ul id="search-results"  class="grid grid-cols-1 gap-4 p-4 overflow-y-auto">
       {
-        entries.map(({slug, data, collection}) => {
+        entries.map(({slug, data, collection, blob}) => {
             const href = `/${collection}/${slug}`
             return (
-                <a data-title={slugifyStr(data.title)} href={href} class="bg-skin-fill rounded-lg p-3 flex flex-col">
+                <a data-blob={blob} data-title={slugifyStr(data.title)} href={href} class="bg-skin-fill rounded-lg p-3 flex flex-col">
                   <div class="w-full flex flex-row justify-between">
                     <Datetime relative size="sm" datetime={data.dateTime} endDate={collection == "blog" ? undefined:data.endDate} class="text-skin-base/70  inline-block scale-75 origin-left" />
                     <div class="w-fit flex gap-1  place-items-center justify-end ">
@@ -48,33 +53,19 @@ import { Icon } from "astro-icon";
                   </div>
                     <span transition:name={slug}  class="text-skin-accent">{data.title}</span>
                     <div class="inline">
-                      <span aria-label="pre" class="" /><span aria-label="match" class="" /><span aria-label="post" class="" />
+                      <span data-part="pre" class="" /><span data-part="match" class="text-skin-accent" /><span data-part="post" class="" />
                     </div>
                 </a>
             )
         }
     )}
     </ul>
-  <script>
-  import { slugifyStr } from "@utils/slugify";
-  import { getCollection, type  CollectionEntry } from "astro:content";
-  import removeMd from "remove-markdown"; 
-  const posts = await getCollection("blog");
-  const projects = await getCollection("projects"); 
-  type Entry = CollectionEntry<"blog"> | CollectionEntry<"projects"> 
-  type searchResult =  {
-        match: [string, string, string]
-        title: string
-  }
-
-
+  <script lang="ts">
 
   const WINDOW_SIZE = 800; 
   const SENTENCES = 2; 
 
-  const entries = [...posts, ...projects] as Entry[] 
-  const entryCount = entries.length 
-  function sentence(s: string, first: boolean) {
+  function sentence(s, first) {
       const delimiters = /[.!?,;\n]/g; 
       const delimiterPositions = [...s.matchAll(delimiters)].map(match => match.index);
       if (first) {
@@ -86,8 +77,7 @@ import { Icon } from "astro-icon";
       }
     }
 
-  function getMatch(entry: Entry, query: string) {
-        const blob = [entry.data.title, entry.data.description, removeMd(entry.body)].join("\n")
+  function getMatch(blob, query) {
         const start = blob.toLowerCase().indexOf(query.toLowerCase())
         const end = start + query.length
         if (start !== -1) {
@@ -95,43 +85,43 @@ import { Icon } from "astro-icon";
           const pre = sentence(blob.slice(start - WINDOW_SIZE, start), false)
           const match = blob.slice(start, end)
           const post = sentence(blob.slice(end, end + WINDOW_SIZE), true)
-
-            return{
-                match: [pre, match, post],
-                title: slugifyStr(entry.data.title)
-            }        
+            return [pre, match, post]
         }
 
     }
 
-    function updateList(q: string) {
-      const url = new URL(window.location as any) ;
-      url.searchParams.set('q', q);
+    function updateList(q) {
+      const url = new URL(window.location) ;
+      url.searchParams?.set('q', q);
       if (!q) url.searchParams.delete("q");
       window.history.pushState(null, '', url.toString());
-      const searchResults = q!==""?
-       entries.map((entry) => getMatch(entry, q)).filter((match) => match !== undefined) as searchResult[]: [] as searchResult[];;
       let hiddenCount = 0;
-      const parentElement = document.getElementById("search-results") as HTMLUListElement
-      [...parentElement.children].forEach((child: any) => {
-        if (!searchResults) return;
-        const match = searchResults.find(({title}) => title === child.dataset.title) as searchResult;
+      let resultCount = 0;
+      const parentElement = document.getElementById("search-results");
+      Array.from(parentElement.children).forEach((child) => {
+        if (!child || !child.classList ){
+          return
+        }
+        
+        const blob = child.getAttribute("data-blob");
+        const match = getMatch(blob, q);
         if (match) {
-          child.classList.remove("hidden")
-          child.querySelector(`[aria-label='pre']`).innerText = match.match[0]
-          child.querySelector(`[aria-label='match']`).innerText = match.match[1]
-          child.querySelector(`[aria-label='post']`).innerText = match.match[2]
+          resultCount += 1;
+          child.classList.remove("hidden");
+          child.querySelector(`[data-part='pre']`).innerText = match.match[0];
+          child.querySelector(`[data-part='match']`).innerText = match.match[1];
+          child.querySelector(`[data-part='post']`).innerText = match.match[2];
         }
         else {
-          child.classList.add("hidden")
-          hiddenCount += 1
+          child.classList.add("hidden");
+          hiddenCount += 1;
         }
-      });
+      })
 
-      const nMatches = document.getElementById("number-of-results") as HTMLParagraphElement;
-      if (hiddenCount !== entryCount)
+      const nMatches = document.getElementById("number-of-results");
+      if (hiddenCount !== resultCount)
       {
-        nMatches.innerText = `Found ${searchResults.length} ${searchResults.length === 1 ? "result" : "results" } for "${q}"`
+        nMatches.innerText = `Found ${resultCount} ${resultCount === 1 ? "result" : "results" } for "${q}"`
       }
       else {
         if (q === "")
@@ -143,17 +133,20 @@ import { Icon } from "astro-icon";
       }
     }
 
- 
-    const url = new URL(window.location as any) ;
-    const q = url.searchParams.get('q');
-    console.log(q)
-    if (q) {
-      (document.querySelector("#search-input") as HTMLInputElement).value = q;      
-      updateList(q)
-    };
-    addEventListener("input", (e: any) =>{ 
-      if (e.target.id !== "search-input") return;
-      updateList(e.target.value)
+    
+    document.addEventListener("DOMContentLoaded", ()=>{
+      const url = new URL(window.location) ;
+      const q = url.searchParams.get('q');
+      const input = document.querySelector("#search-input");
+      input.focus();
+      if (q) {
+        document.querySelector("#search-input").value = q;      
+        updateList(q)
+      }
+      input.addEventListener("input", (e) =>{ 
+        updateList(e.target.value)
+      });
+
     });
 
 

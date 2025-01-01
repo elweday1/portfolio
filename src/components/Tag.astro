@@ -2,7 +2,8 @@
 // import tailwind merge 
 import { slugifyStr } from "@utils/slugify";
 import Icon from "astro-icon";
-import { twMerge } from "tailwind-merge"; 
+import { twMerge } from "tailwind-merge";
+import { hsl } from "./utils"; 
 export interface Props {
   name: string;
   size?: "sm" | "lg";
@@ -42,7 +43,6 @@ if (type !== "all") {
 const quickHash  = (s: string) => Array.from(s).reduce((a, b) => a + b.charCodeAt(0) * 17, 0) % 360;  
 
 
-const hsl = ( h: number,  a = 100, s = 40, l = 50 ) =>  `hsl(${h} ${s}%  ${l}% / ${a}%)`
 const hueVal = quickHash(name);
 const colorPartial = hsl(hueVal, 30);
 const color = hsl(hueVal, 100);

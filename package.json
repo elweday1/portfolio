@@ -16,11 +16,11 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@astrojs/alpinejs": "^0.3.2",
-    "@astrojs/check": "^0.2.1",
-    "@astrojs/cloudflare": "^9.0.0",
-    "@astrojs/rss": "^3.0.0",
-    "@astrojs/vercel": "^7.5.3",
+    "@astrojs/alpinejs": "^0.4.1",
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/cloudflare": "^12.1.0",
+    "@astrojs/rss": "^4.0.10",
+    "@astrojs/vercel": "^8.0.1",
     "@beoe/rehype-mermaid": "^0.0.2",
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-tooltip": "^1.0.7",
@@ -28,7 +28,7 @@
     "@sparticuz/chromium": "^130.0.0",
     "@types/alpinejs": "^3.13.6",
     "alpinejs": "^3.13.3",
-    "astro": "^4.6.3",
+    "astro": "^5.1.1",
     "astro-compress": "^2.2.5",
     "astro-icon": "^0.8.2",
     "astro-iconify": "^1.2.0",
@@ -59,9 +59,9 @@
     "yaml": "^2.4.1"
   },
   "devDependencies": {
-    "@astrojs/react": "^3.0.7",
-    "@astrojs/sitemap": "^3.0.3",
-    "@astrojs/tailwind": "^5.1.0",
+    "@astrojs/react": "^4.1.2",
+    "@astrojs/sitemap": "^3.2.1",
+    "@astrojs/tailwind": "^5.1.4",
     "@divriots/jampack": "^0.20.2",
     "@tailwindcss/typography": "^0.5.10",
     "@types/github-slugger": "^1.3.0",

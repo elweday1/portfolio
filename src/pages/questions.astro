@@ -1,0 +1,103 @@
+---
+import { Icon } from "astro-icon";
+import Layout from "@layouts/Layout.astro";
+import Question from "@components/QA.astro";
+
+const QA: Array<{ question: string; answer: string; anon: number, answerDate: Date }> = [
+  {
+    question: "What is your name?",
+    answer: "Mohammed Nasser",
+    anon: 352,
+    answerDate: new Date("2023-01-01"),
+  },
+  {
+    question: "What is your favorite color?",
+    answer: "Blue",
+    anon: 111,
+    answerDate: new Date("2023-01-01"),
+  },
+  {
+    question: "What is your favorite food?",
+    answer: "Pizza",
+    anon: 222,
+    answerDate: new Date("2023-01-01"),
+  },
+  {
+    question: "What is your favorite animal?",
+    answer: "Cat",
+    anon: 207,
+    answerDate: new Date("2023-01-01"),
+  },
+];
+---
+
+<Layout title="About" description="Mohammed Nasser | Questions">
+  <article>
+    <h1 class="py-6 text-start text-2xl tracking-wider sm:text-3xl">Questions</h1>
+    <div class="flex flex-col gap-12">
+      <section>
+        <form id="message-form" class="flex flex-col gap-3">
+          <label class="relative block">
+            <span class="sr-only">Message content.</span>
+            <textarea
+              class="text-md block h-32 w-full justify-self-center rounded-lg border border-skin-fill border-opacity-40 bg-skin-card/30 bg-skin-fill px-[0.75rem] py-[0.32rem] placeholder:italic placeholder:text-slate-400/80 placeholder:text-opacity-75 focus:border-skin-accent focus:outline-none"
+              placeholder="Message..."
+              required
+              name="message"
+              autocomplete="off"></textarea>
+          </label>
+
+          <div class="flex gap-3">
+            <button
+              class="flex w-full place-items-center justify-center gap-2 place-self-center rounded-lg bg-skin-accent/30 px-4 py-2 text-lg transition-all hover:scale-[1.03] hover:bg-skin-accent/80"
+              type="submit"
+            >
+              <Icon class="" name="lucide:send" />
+              <span> Send</span>
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section>
+        <h1>Answers</h1>
+        <ul class="flex flex-col gap-3">
+          {QA.map(qa => <Question data={qa} />)}
+        </ul>
+      </section>
+    </div>
+  </article>
+
+  <style>
+    section {
+      @apply flex  w-full flex-col gap-2 justify-self-start;
+    }
+
+    h2 {
+      @apply text-start text-xl tracking-wider  sm:text-2xl;
+    }
+    .toast-title {
+      @apply text-xl font-bold text-skin-accent;
+    }
+  </style>
+
+  <script >
+    import { actions } from "astro:actions";
+    import { toast } from "@utils/toast";
+
+    const form = document.querySelector("#message-form") as HTMLFormElement;
+    form.addEventListener("submit", async e => {
+      e.preventDefault();
+      const form = e.target! as HTMLFormElement;
+      const formData = new FormData(form);
+      const message = formData.get("message")! as string;
+      const { data, error } = await actions.sendMessage({ message });
+      if (error) {
+        toast("Error", error.message);
+        return;
+      }
+      toast("Success", data);
+      form.reset();
+    });
+  </script>
+</Layout>
