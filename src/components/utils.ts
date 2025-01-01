@@ -13,3 +13,11 @@ export function quickHash(s: string) { return Array.from(s).reduce((a, b) => a +
 export function assertFulfilled<T>(item: PromiseSettledResult<T>): item is PromiseFulfilledResult<T> {
   return item.status === 'fulfilled';
 }
+
+export function safeParse<T>(jsonText: string): T | undefined {
+   try {
+     return JSON.parse(jsonText);
+  } catch {
+     return undefined
+  }
+} 

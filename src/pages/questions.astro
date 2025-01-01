@@ -4,12 +4,16 @@ import Layout from "@layouts/Layout.astro";
 import Question from "@components/QA.astro";
 import { server } from "actions";
 import { quickHash } from "@components/utils";
-
+// from 1 to 300 
+function radnomNumber(){
+  return Math.ceil(Math.random()*300)
+}
 const data = await server.questions.getAll();
-const QA = data.map(qa => ({ question: qa.question, answer: qa.answer, anon: quickHash(qa.clientAddress), answerDate: new Date(qa.date) }));
+const QA = data.map(qa => ({ question: qa.question, answer: qa.answer, anon: qa.clientAddress ? quickHash(qa.clientAddress) : radnomNumber(), answerDate: new Date(qa.date) }));
+console.log(QA);
 ---
 
-<Layout title="About" description="Mohammed Nasser | Questions">
+<Layout title="Questions" description="Mohammed Nasser | Questions">
   <article>
     <h1 class="py-6 text-start text-2xl tracking-wider sm:text-3xl">Questions</h1>
     <div class="flex flex-col gap-12">
