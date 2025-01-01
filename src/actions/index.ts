@@ -3,7 +3,7 @@ import { z } from 'astro:schema';
 import { redis } from 'db';
 import { sendMessage } from './telegram';
 
-export const server = {
+const questions = {
     ask: defineAction({
         input: z.object({
             message: z.string(),
@@ -18,9 +18,17 @@ export const server = {
             const questions = await redis.smembers('questions');
             const qa = await Promise.all(questions.map(async question => {
                 const answer = await redis.get<string>(question);
-                return {question, answer};
+                return { question, answer };
             }));
-            return qa
+            return qa as { question: string, answer: string }[];
         }
     })
+
+}
+
+export const server  = {
+    questions,
+    telegram: {
+        sendMessage
+    }
 }
