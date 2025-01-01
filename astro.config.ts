@@ -8,7 +8,7 @@ import { SITE } from "./src/config";
 import compress from "astro-compress";
 import preload from "astro-preload";
 import remarkMermaid from 'remark-mermaidjs'
-
+import vercel from '@astrojs/vercel';
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
@@ -61,8 +61,8 @@ export default defineConfig({
       themes: {"light": "github-light", "dark": "github-dark"},
     },
   },
-  output: "static",
-
+  output: "server",
+  adapter: vercel(),
   vite: {
     optimizeDeps: {
       exclude: ["@resvg/resvg-js"],
