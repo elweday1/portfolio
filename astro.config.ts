@@ -9,6 +9,7 @@ import compress from "astro-compress";
 import preload from "astro-preload";
 import remarkMermaid from 'remark-mermaidjs'
 import vercel from '@astrojs/vercel';
+
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
@@ -17,17 +18,15 @@ export default defineConfig({
       TELEGRAM_BOT_TOKEN: envField.string({ context: "server", access: "secret" }),
       MY_CHAT_ID: envField.number({ context: "server", access: "secret",  }),
       OMDB_API_KEY: envField.string({ context: "server", access: "secret" }),
+      KV_URL: envField.string({ context: "server", access: "secret" }),
+      KV_REST_API_READ_ONLY_TOKEN:envField.string({ context: "server", access: "secret" }),
+      KV_REST_API_TOKEN:envField.string({ context: "server", access: "secret" }),
+      KV_REST_API_URL:envField.string({ context: "server", access: "secret" }),
     }
   },
-  integrations: [
-    preload(),
-    tailwind({
-      applyBaseStyles: false,
-    }),
-    react(),
-    sitemap(),
-    compress(),
-  ],
+  integrations: [preload(), tailwind({
+    applyBaseStyles: false,
+  }), react(), sitemap(), compress()],
   markdown: {
     syntaxHighlight: "shiki",
     remarkPlugins: [

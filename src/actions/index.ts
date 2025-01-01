@@ -1,24 +1,26 @@
 import { defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
+import { redis } from 'db';
+import { sendMessage } from './telegram';
 
 export const server = {
-    sendMessage: defineAction({
+    ask: defineAction({
         input: z.object({
             message: z.string(),
         }),
         handler: async ({message}) => {
-            const res = await fetch("https://api.elweday.workers.dev/questions/ask", {
-                method: "POST",
-                body: message,
-                headers: {
-                  "Content-Type": "application/json",
-                  "Allow-Control-Allow-Origin": "*",
-                },
-            })
-
-            const data = await res.text();
-            return data;
-
+            const res = await sendMessage({message});
+            return res.data;
+        }
+    }),
+    getAll: defineAction({
+        handler: async () => {
+            const questions = await redis.smembers('questions');
+            const qa = await Promise.all(questions.map(async question => {
+                const answer = await redis.get<string>(question);
+                return {question, answer};
+            }));
+            return qa
         }
     })
 }

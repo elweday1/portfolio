@@ -27,6 +27,7 @@
     "@resvg/resvg-js": "^2.6.0",
     "@sparticuz/chromium": "^130.0.0",
     "@types/alpinejs": "^3.13.6",
+    "@upstash/redis": "^1.34.3",
     "alpinejs": "^3.13.3",
     "astro": "^5.1.1",
     "astro-compress": "^2.2.5",
