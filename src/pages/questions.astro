@@ -4,7 +4,11 @@ import Layout from "@layouts/Layout.astro";
 import Question from "@components/QA.astro";
 import { server } from "actions";
 import { quickHash } from "@components/utils";
+import { redis } from "db";
+
+await redis.flushall();
 // from 1 to 300 
+
 function radnomNumber(){
   return Math.ceil(Math.random()*300)
 }

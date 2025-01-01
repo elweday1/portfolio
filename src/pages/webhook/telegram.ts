@@ -32,7 +32,7 @@ type TelegramMessage = {
     message: TelegramMessage;
   };
   
-  const twitterBasePost = "https://x.com/intent/post?text="
+  const twitterBasePost = "https://x.com/intent/tweet?text="
   const mySiteLink = SITE.website + "/questions"
   const headers = {
       "Content-Type": "application/json",
