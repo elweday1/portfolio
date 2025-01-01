@@ -95,6 +95,7 @@ const QA: Array<{ question: string; answer: string; anon: number, answerDate: Da
       if (error) {
         toast("Error", error.message);
         return;
+        
       }
       toast("Success", data);
       form.reset();
