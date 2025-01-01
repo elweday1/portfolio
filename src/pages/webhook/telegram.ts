@@ -56,8 +56,8 @@ export const POST: APIRoute = async ({ request }) => {
 }
 
   function shareToTwitter(update : TelegramUpdate) {
-    const message = `=> ${update.message.text}
--> ${update.message.reply_to_message?.text || ""}
+    const message = `-> ${update.message.reply_to_message?.text || ""}
+=> ${update.message.text}
     
 ${mySiteLink}
     `.trim();
