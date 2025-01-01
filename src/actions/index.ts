@@ -2,6 +2,8 @@ import { defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
 import { redis } from 'db';
 import { sendMessage } from './telegram';
+import { assertFulfilled } from '@components/utils';
+
 
 type Answer = { question: string, answer: string, date: number, clientAddress: string }
 const questions = {
@@ -17,17 +19,16 @@ const questions = {
     }),
     getAll: async () =>  {
             const questions = await redis.smembers('questions');
-            const answers: Answer[] = [];
-            await Promise.allSettled(questions.map(async question => {
+            const responses = await Promise.allSettled(questions.map(async question => {
                 const answerJson = await redis.get<string>(question);
                 try {
                     const answer = JSON.parse(answerJson!);
-                    answers.push(answer);
+                    return answer as Answer
                 } catch (error) {
-                    return
+                    throw new Error("Failed to parse answer");
                 }
             }));
-            return answers;
+            return responses.filter(assertFulfilled).map(res => res.value);
     }
 }
 
