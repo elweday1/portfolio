@@ -1,8 +1,9 @@
 import type { APIRoute } from 'astro';
-import { MY_CHAT_ID, TELEGRAM_BOT_TOKEN } from 'astro:env/server';
+import { MY_CHAT_ID } from 'astro:env/server';
 import { redis } from 'db';
 
-import { sendMessage } from 'actions/telegram';
+import { actions } from 'astro:actions';
+import { SITE } from '@config';
 
 type TelegramMessage = {
     message_id: number;
@@ -32,7 +33,7 @@ type TelegramMessage = {
   };
   
   const twitterBasePost = "https://x.com/intent/post?url="
-  const mySiteLink = "elweday.vercel.app/questions"
+  const mySiteLink = SITE.website + "/questions"
   const headers = {
       "Content-Type": "application/json",
       "Access-Control-Allow-Origin": "*",
@@ -40,10 +41,10 @@ type TelegramMessage = {
       "Access-Control-Allow-Headers": "*",
     }
 
-export const POST: APIRoute = async ({ params, request }) => {
+export const POST: APIRoute = async ({ request }) => {
     const updateData = await request.json() as TelegramUpdate;
     if (updateData.message.reply_to_message && updateData.message.from.id === Number(MY_CHAT_ID) ) {
-      await sendMessage({message: shareToTwitter(updateData)});
+      await actions.telegram.sendMessage({message: shareToTwitter(updateData)});
       const question = updateData.message.reply_to_message.text;
       const answer = updateData.message.text;
       await redis.set(question, answer);
@@ -54,8 +55,8 @@ export const POST: APIRoute = async ({ params, request }) => {
 
   function shareToTwitter(update : TelegramUpdate) {
     const message = `
-  => ${update.message.text}
-  -> ${update.message.reply_to_message?.text || ""}
+=> ${update.message.text}
+-> ${update.message.reply_to_message?.text || ""}
     
     ${mySiteLink}
     `.trim();
