@@ -9,8 +9,8 @@ const questions = {
             message: z.string(),
         }),
         handler: async ({message}) => {
-            const res = await sendMessage({message});
-            return res.data;
+            const res = await sendMessage(message);
+            return res;
         }
     }),
     getAll: defineAction({

@@ -44,7 +44,7 @@ type TelegramMessage = {
 export const POST: APIRoute = async ({ request }) => {
     const updateData = await request.json() as TelegramUpdate;
     if (updateData.message.reply_to_message && updateData.message.from.id === Number(MY_CHAT_ID) ) {
-      await actions.telegram.sendMessage({message: shareToTwitter(updateData)});
+      await actions.telegram.sendMessage(shareToTwitter(updateData));
       const question = updateData.message.reply_to_message.text;
       const answer = updateData.message.text;
       await redis.set(question, answer);
