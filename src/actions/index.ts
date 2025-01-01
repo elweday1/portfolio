@@ -22,6 +22,7 @@ const questions = {
                 const answerJson = await redis.get<Answer>(question);
                 return {...answerJson, question} as Answer;
             }));
+            console.log(responses)
             const answers = responses.filter(assertFulfilled).map(res => res.value).sort((a, b) => b.date - a.date);
             return answers;
     }

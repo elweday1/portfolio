@@ -4,10 +4,6 @@ import Layout from "@layouts/Layout.astro";
 import Question from "@components/QA.astro";
 import { server } from "actions";
 import { quickHash } from "@components/utils";
-import { redis } from "db";
-
-await redis.flushall();
-// from 1 to 300 
 
 function radnomNumber(){
   return Math.ceil(Math.random()*300)
@@ -17,7 +13,7 @@ const QA = data.map(qa => ({ question: qa.question, answer: qa.answer, anon: qa.
 console.log(QA);
 ---
 
-<Layout title="Questions" description="Mohammed Nasser | Questions">
+<Layout title="Questions" description="Mohammed Nasser | Ask me anything">
   <article>
     <h1 class="py-6 text-start text-2xl tracking-wider sm:text-3xl">Questions</h1>
     <div class="flex flex-col gap-12">
