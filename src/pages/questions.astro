@@ -5,34 +5,7 @@ import Question from "@components/QA.astro";
 import { server } from "actions";
 
 const data = await server.questions.getAll();
-console.log(data);
-
-const QA: Array<{ question: string; answer: string; anon: number, answerDate: Date }> = [
-  {
-    question: "What is your name?",
-    answer: "Mohammed Nasser",
-    anon: 352,
-    answerDate: new Date("2023-01-01"),
-  },
-  {
-    question: "What is your favorite color?",
-    answer: "Blue",
-    anon: 111,
-    answerDate: new Date("2023-01-01"),
-  },
-  {
-    question: "What is your favorite food?",
-    answer: "Pizza",
-    anon: 222,
-    answerDate: new Date("2023-01-01"),
-  },
-  {
-    question: "What is your favorite animal?",
-    answer: "Cat",
-    anon: 207,
-    answerDate: new Date("2023-01-01"),
-  },
-];
+const QA = data.map(qa => ({ question: qa.question, answer: qa.answer, anon: Math.ceil(Math.random() * 300), answerDate: new Date() }));
 ---
 
 <Layout title="About" description="Mohammed Nasser | Questions">
