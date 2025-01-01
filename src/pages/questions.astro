@@ -4,7 +4,7 @@ import Layout from "@layouts/Layout.astro";
 import Question from "@components/QA.astro";
 import { server } from "actions";
 
-const { data } = await Astro.callAction(server.questions.getAll, {});
+const data = await server.questions.getAll();
 console.log(data);
 
 const QA: Array<{ question: string; answer: string; anon: number, answerDate: Date }> = [

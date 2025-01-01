@@ -13,17 +13,14 @@ const questions = {
             return res;
         }
     }),
-    getAll: defineAction({
-        handler: async () => {
+    getAll: async () =>  {
             const questions = await redis.smembers('questions');
             const qa = await Promise.all(questions.map(async question => {
                 const answer = await redis.get<string>(question);
                 return { question, answer };
             }));
             return qa as { question: string, answer: string }[];
-        }
-    })
-
+    }
 }
 
 export const server  = {

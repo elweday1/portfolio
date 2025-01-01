@@ -7,6 +7,7 @@ export async function sendMessage(message: string){
       method: "POST",
       headers: { "Content-Type": "application/json" },
     });
-    return await res.text();    
+
+    return "done";    
 
 }
