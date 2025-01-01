@@ -91,11 +91,11 @@ const QA: Array<{ question: string; answer: string; anon: number, answerDate: Da
       const form = e.target! as HTMLFormElement;
       const formData = new FormData(form);
       const message = formData.get("message")! as string;
-      const { data, error } = await actions.sendMessage({ message });
+      const { data, error } = await actions.ask({ message });
       if (error) {
         toast("Error", error.message);
         return;
-        
+
       }
       toast("Success", data);
       form.reset();
