@@ -63,21 +63,20 @@ console.log(QA);
     }
   </style>
 
-  <script >
+  <script>
     import { actions } from "astro:actions";
     import { toast } from "@utils/toast";
 
     const form = document.querySelector("#message-form") as HTMLFormElement;
     form.addEventListener("submit", async e => {
       e.preventDefault();
-      const form = e.target! as HTMLFormElement;
+      const form = e.target;
       const formData = new FormData(form);
       const question = formData.get("message")! as string;
       const { data, error } = await actions.questions.ask({ question });
       if (error) {
         toast("Error", error.message);
         return;
-
       }
       toast("Success", data!);
       form.reset();

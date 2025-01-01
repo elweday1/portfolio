@@ -32,7 +32,7 @@ type TelegramMessage = {
     message: TelegramMessage;
   };
   
-  const twitterBasePost = "https://x.com/intent/post?url="
+  const twitterBasePost = "https://x.com/intent/post?text="
   const mySiteLink = SITE.website + "/questions"
   const headers = {
       "Content-Type": "application/json",
@@ -56,11 +56,10 @@ export const POST: APIRoute = async ({ request }) => {
 }
 
   function shareToTwitter(update : TelegramUpdate) {
-    const message = `
-=> ${update.message.text}
+    const message = `=> ${update.message.text}
 -> ${update.message.reply_to_message?.text || ""}
     
-    ${mySiteLink}
+${mySiteLink}
     `.trim();
     return `
     Sharing Link:
