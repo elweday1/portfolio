@@ -14,7 +14,7 @@ interface Props {
 
 const { project, class: className } = Astro.props;
 const { data, slug } = project;
-const { title, cover, stack, tags, dateTime, endDate, projectURL, githubURL } =
+const { title, cover, stack, tags, dateTime, endDate } =
   data;
 
 const strTags = tags.map((tag: string) => slugifyStr(tag)).join("/");
@@ -39,10 +39,10 @@ const strTags = tags.map((tag: string) => slugifyStr(tag)).join("/");
       class="aspect-video"
     />
     <div
-      class="absolute bottom-0 left-0 h-full w-full bg-gradient-to-b from-transparent from-50% to-skin-accent opacity-100 duration-1000 group-hover:opacity-0"
-    >
-    </div>
-    <span
+      class="absolute bottom-0 left-0 h-full w-full bg-gradient-to-b from-transparent from-50% to-gray-800 opacity-100 duration-1000 group-hover:opacity-0"
+    />
+    <a         href={`/projects/${slug}`}
+
       class="absolute bottom-0 left-0 flex h-full w-full place-items-end justify-between p-3 text-xl font-bold transition-opacity duration-300 group-hover:opacity-0"
     >
       <div class="flex h-full w-full flex-col justify-end gap-2">
@@ -76,42 +76,7 @@ const strTags = tags.map((tag: string) => slugifyStr(tag)).join("/");
           </div>
         </div>
       </div>
-    </span>
-    <div
-      class="absolute left-0 top-0 flex h-full w-full flex-col opacity-0 transition-all duration-500 *:pointer-events-none *:flex *:cursor-pointer *:items-center *:justify-center group-hover:opacity-80 *:group-hover:pointer-events-auto"
-    >
-      {
-        githubURL && (
-          <a
-            href={githubURL}
-            aria-label="Github"
-            class={`h-full w-full cursor-pointer   bg-[#191f2d]  opacity-0  group-hover:opacity-100`}
-          >
-            <Icon class="size-14  " name="teenyicons:github-solid" />
-          </a>
-        )
-      }
-
-      <a
-        href={`/projects/${slug}`}
-        aria-label="Github"
-        class={`h-full bg-[#2c323f]  w-full cursor-pointer  opacity-0 group-hover:opacity-100`}
-      >
-        <Icon class="size-14" name="uil:eye" />
-      </a>
-
-      {
-        projectURL && (
-          <a
-            href={projectURL}
-            aria-label="Github"
-            class={`h-full w-full cursor-pointer bg-[#404652]  opacity-0 group-hover:opacity-100 `}
-          >
-            <Icon class="size-14  " name="mdi:web " />
-          </a>
-        )
-      }
-    </div>
+    </a>
   </div>
 </li>
 
