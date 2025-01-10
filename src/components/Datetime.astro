@@ -9,8 +9,6 @@ export interface Props {
   relative?: boolean
 }
 
-
-
 const { datetime, size, class:className, endDate, relative = false } = Astro.props;
 
 const myDatetime = new Date(datetime);
@@ -42,9 +40,12 @@ else {
 
   function updateTime(){
     const dates = document.querySelectorAll("[data-date-type='relative']");
-    dates.forEach((date: any) => {
+    dates.forEach((date) => {
+      // @ts-ignore
       const time = +date.dataset.time;
+      // @ts-ignore
       const relativeTime = getRelativeTime(time)
+      // @ts-ignore
       date.innerText = relativeTime
     })
 

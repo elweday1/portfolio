@@ -1,52 +1,19 @@
-// TODO: THIS SUCKS, USE THE PLATFORM
-export default function (time: number | string | Date) {
-	switch (typeof time) {
-		case "number":
-			break;
-		case "string":
-			time = +new Date(time);
-			break;
-		case "object":
-			if (time.constructor === Date) time = time.getTime();
-			break;
-		default:
-			time = +new Date();
-	}
-	const time_formats: [number, string | string[], number | string][] = [
-		[60, "seconds", 1], // 60
-		[120, "1 minute ago", "1 minute from now"], // 60*2
-		[3600, "minutes", 60], // 60*60, 60
-		[7200, "1 hour ago", "1 hour from now"], // 60*60*2
-		[86400, "hours", 3600], // 60*60*24, 60*60
-		[172800, "Yesterday", "Tomorrow"], // 60*60*24*2
-		[604800, "days", 86400], // 60*60*24*7, 60*60*24
-		[1209600, "Last week", "Next week"], // 60*60*24*7*4*2
-		[2419200, "weeks", 604800], // 60*60*24*7*4, 60*60*24*7
-		[4838400, "Last month", "Next month"], // 60*60*24*7*4*2
-		[29030400, "months", 2419200], // 60*60*24*7*4*12, 60*60*24*7*4
-		[58060800, "Last year", "Next year"], // 60*60*24*7*4*12*2
-		[2903040000, "years", 29030400], // 60*60*24*7*4*12*100, 60*60*24*7*4*12
-		[5806080000, "Last century", "Next century"], // 60*60*24*7*4*12*100*2
-		[58060800000, "centuries", 2903040000], // 60*60*24*7*4*12*100*20, 60*60*24*7*4*12*100
-	];
-	var seconds = (+new Date() - (time as number)) / 1000,
-		token = "ago",
-		list_choice = 1;
+export default function getRelativeTime(date: Date) {
+    const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto', style:"long"  });
+    const now = new Date();
+    const diff = date.getTime() - now.getTime();
+    
+    const seconds = Math.round(diff / 1000);
+    const minutes = Math.round(diff / (1000 * 60));
+    const hours = Math.round(diff / (1000 * 60 * 60));
+    const days = Math.round(diff / (1000 * 60 * 60 * 24));
+    const months = Math.round(diff / (1000 * 60 * 60 * 24 * 30));
+    const years = Math.round(diff / (1000 * 60 * 60 * 24 * 365));
 
-	if (seconds == 0) {
-		return "Just now";
-	}
-	if (seconds < 0) {
-		seconds = Math.abs(seconds);
-		token = "from now";
-		list_choice = 2;
-	}
-	var i = 0,
-		format;
-	while ((format = time_formats[i++]))
-		if (seconds < format[0]) {
-			if (typeof format[2] == "string") return format[list_choice];
-			else return Math.floor(seconds / format[2]) + " " + format[1] + " " + token;
-		}
-	return time;
+    if (Math.abs(seconds) < 60) return rtf.format(seconds, 'seconds');
+    if (Math.abs(minutes) < 60) return rtf.format(minutes, 'minutes');
+    if (Math.abs(hours) < 24) return rtf.format(hours, 'hours');
+    if (Math.abs(days) < 30)   return rtf.format(days, 'days');
+    if (Math.abs(days) < 365) return rtf.format(months, 'months');
+    return rtf.format(years, 'years');
 }
