@@ -37,7 +37,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
         <h1 class="text-4xl text-skin-accent md:text-7xl">
           Mohammed Nasser<span></span>
         </h1>
-        <a class="absolute -right-9 top-3" href="/rss.xml">
+        <a class="absolute -right-9 -top-2 sm:-right-11 sm:top-4" href="/rss.xml">
           <Icon name="ph:rss-bold" class="size-8 rounded-md text-skin-accent" />
         </a>
       </div>
@@ -111,10 +111,10 @@ const socialCount = SOCIALS.filter(social => social.active).length;
   }
 
   #desc {
-    animation-delay: 2.5s;
+    animation-delay: 1.5s;
   }
   .socials {
-    animation-delay: 3s;
+    animation-delay: 2s;
   }
 
   .box .title {
@@ -127,14 +127,14 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     height: inherit;
     background: rgba(var(--color-accent), 1);
     position: absolute;
-    animation: mainBlock 2s cubic-bezier(0.74, 0.06, 0.4, 0.92) forwards;
+    animation: mainBlock 1.5s cubic-bezier(0.74, 0.06, 0.4, 0.92) forwards;
     display: flex;
   }
   .box .title h1 {
-    -webkit-animation: mainFadeIn 2s forwards;
-    -o-animation: mainFadeIn 2s forwards;
-    animation: mainFadeIn 2s forwards;
-    animation-delay: 1s;
+    -webkit-animation: mainFadeIn 1.5s forwards;
+    -o-animation: mainFadeIn 1.5s forwards;
+    animation: mainFadeIn 1.5s forwards;
+    animation-delay: 0.5s;
     opacity: 0;
     display: flex;
     align-items: baseline;
@@ -168,7 +168,7 @@ const socialCount = SOCIALS.filter(social => social.active).length;
     height: inherit;
     background: rgba(var(--color-accent), 1);
     position: absolute;
-    animation: secBlock 1s cubic-bezier(0.74, 0.06, 0.4, 0.92) forwards;
+    animation: secBlock 1.5s var(--easing-spring) forwards;
     animation-delay: 1.5s;
     display: flex;
   }
@@ -183,9 +183,9 @@ const socialCount = SOCIALS.filter(social => social.active).length;
   }
   a {
     opacity: 0;
-    -webkit-animation: shake 3s forwards;
-    -o-animation: shake 3s forwards;
-    animation: shake 5s forwards;
+    -webkit-animation: shake 2s forwards;
+    -o-animation: shake 2s forwards;
+    animation: shake 3s forwards;
     transform-origin: bottom left;
   }
 
