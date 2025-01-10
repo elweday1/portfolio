@@ -4,7 +4,7 @@ title: Personal Blog & Portfolio
 description: Non-trivial astro personal blog and porftfolio.
 slug: this
 projectURL: https://elweday.vercel.app
-githubURL: https://github.com/elweday/elweday
+githubURL: https://github.com/elweday1/portfolio
 tags:
   - astro
   - SSR

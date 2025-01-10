@@ -15,7 +15,7 @@ tags:
   - REST
   - API
 projectURL: https://helwan.vercel.app
-githubURL: https://github.com/elweday/CollegeSite
+githubURL: https://github.com/elweday1/CollegeSite
 stack:
   - svelte
   - postgres

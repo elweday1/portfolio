@@ -5,7 +5,7 @@ description: draw and guess.
 slug: wordoodle
 draft: false
 projectURL: https://wordoodle.vercel.app
-githubURL: https://github.com/elweday/scribble
+githubURL: https://github.com/elweday1/scribble
 tags:
   - HTML
   - websockets
