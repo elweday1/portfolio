@@ -1,5 +1,7 @@
 ---
 dateTime: 2024-1-1T00:00:00Z
+endDate: 2024-3-1T00:00:00Z
+
 title: "Wordoodle: Drawing Game" 
 description: draw and guess.
 slug: wordoodle

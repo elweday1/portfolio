@@ -1,5 +1,7 @@
 ---
-dateTime: 2023-12-23T00:00:00Z
+dateTime: 2024-3-23T00:00:00Z
+endDate: 2023-8-23T00:00:00Z
+
 title: Personal Blog & Portfolio
 description: Non-trivial astro personal blog and porftfolio.
 slug: this

@@ -1,5 +1,7 @@
 ---
 dateTime: 2024-1-1T00:00:00Z
+endDate: 2024-5-1T00:00:00Z
+
 title: "Metrospection: eg metro navigator" 
 description: draw and guess.
 slug: Metrospection

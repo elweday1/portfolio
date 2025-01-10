@@ -29,6 +29,6 @@ const href = `/blog/${slug}`;
       <Image transition:name={slug+":image"} alt="dffs" width={450} height={450}  format="avif" src={cover} class="rounded-2xl w-full p-2 aspect-video  object-cover"  />
       <a transition:name={slug} href={href}   class="py-1 text-wrap text-xl origin-top-left font-medium text-skin-accent underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0   hover:underline" >{title}</a>
       <p class="">{description}</p>
-      <Datetime class="scale-90 origin-bottom-left mt-auto  " datetime={dateTime} />
+      <Datetime class="scale-90 origin-bottom-left mt-auto  " datetime={dateTime} relative />
     </div>
   </li>
