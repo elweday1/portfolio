@@ -10,7 +10,6 @@ const projects = await getSorted("projects");
 const posts = await getSorted("blog");
 const maxPerPage = 2;
 
-
 import Hero from "@components/Hero.astro";
 ---
 
@@ -28,7 +27,7 @@ import Hero from "@components/Hero.astro";
     projects.length > 0 && (
       <>
         <section id="projects">
-          <h2 class="flex w-full justify-between  pb-2 ">
+          <h2 class="flex w-full justify-between pb-2 z-[999]">
             <span>Projects</span>
             <LinkButton href="/projects">
               <span class="inline-flex  scale-[60%] items-end whitespace-nowrap ">
@@ -39,11 +38,29 @@ import Hero from "@components/Hero.astro";
               </span>
             </LinkButton>
           </h2>
-          <ul class="grid place-items-center gap-4 place-self-center  sm:grid-cols-2">
-            {projects.slice(0, maxPerPage).map(p => (
-              <ProjectCard project={p as CollectionEntry<"projects">} />
-            ))}
-          </ul>
+          <div class="h-full w-full">
+            <sl-carousel
+              pagination
+              navigation
+              mouse-dragging
+              loop
+
+              class="h-full w-full p-0 -mt-20 scale-125 sm:scale-100"
+              style="--scroll-hint: 30px;"
+              slides-per-page="1"
+            >
+              <span slot="next-icon" />
+              <span slot="previous-icon" />
+              {projects.map(p => (
+                <sl-carousel-item tabindex="0">
+                  <ProjectCard
+                    class="h-full w-full min-w-60"
+                    project={p as CollectionEntry<"projects">}
+                  />
+                </sl-carousel-item>
+              ))}
+            </sl-carousel>
+          </div>
         </section>
 
         <Hr />
@@ -52,7 +69,7 @@ import Hero from "@components/Hero.astro";
   }
 
   <section id="recent-posts">
-    <h2 class="flex w-full justify-between pb-2 justify-self-start">
+    <h2 class="flex w-full justify-between justify-self-start pb-2">
       <span> Recent Posts</span>
       <LinkButton href="/blog">
         <span
@@ -67,22 +84,29 @@ import Hero from "@components/Hero.astro";
         </span>
       </LinkButton>
     </h2>
-    <ul class="grid place-items-center gap-2 place-self-center sm:grid-cols-2">
-      {
-        posts
-          .slice(0, maxPerPage)
-          .map(post => <PostCard post={post as CollectionEntry<"blog">} />)
-      }
-    </ul>
+    <div class="h-full w-full">
+      <ul
+        class="grid place-items-center gap-2 place-self-center sm:grid-cols-2"
+      >
+        {
+          posts
+            .slice(0, maxPerPage)
+            .map(post => <PostCard post={post as CollectionEntry<"blog">} />)
+        }
+      </ul>
+    </div>
   </section>
 </Layout>
 
 <style>
   section {
-    @apply h-screen w-full pb-6 pt-12;
+    width: 100%;
+    height: 100%;
+    padding-bottom: 24px;
+    padding-top: 48px;
     scroll-snap-align: start;
     scroll-snap-type: mandatory;
-    height: calc(100vh - 55px);
+    height: 100%;
     overflow-y: hidden;
     scroll-snap-stop: always;
 

@@ -19,7 +19,7 @@ const time = myDatetime.toLocaleTimeString(LOCALE, timeFormat);
 const end = endDate && endDate !== "Present"  ? new Date(endDate).toLocaleDateString(LOCALE, dateFormat): "Present";
 let stringDate = "";
 if (relative) {
-  stringDate = getRelativeTime(myDatetime)
+  stringDate = getRelativeTime(myDatetime.getTime())
 }
 else {
   stringDate = date + (end ? " - " + end : "") + (!endDate ? " " + time : "")

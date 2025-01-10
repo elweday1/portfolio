@@ -30,20 +30,18 @@ const strTags = tags.map((tag: string) => slugifyStr(tag)).join("/");
 >
   <div class="relative overflow-clip rounded-xl">
     <Image
-      transition:name={slug + ":image"}
+      transition:name={slug + ":coverImage"}
       alt=""
-      width={650}
-      height={350}
       format="avif"
       src={cover}
       class="aspect-video"
     />
     <div
-      class="absolute bottom-0 left-0 h-full w-full bg-gradient-to-b from-transparent from-50% to-gray-800 opacity-100 duration-1000 group-hover:opacity-0"
+      class="absolute bottom-0 left-0 h-full w-full bg-gradient-to-b from-transparent from-50% to-gray-800 opacity-100 duration-1000 "
     />
-    <a         href={`/projects/${slug}`}
+    <a href={`/projects/${slug}`}
 
-      class="absolute bottom-0 left-0 flex h-full w-full place-items-end justify-between p-3 text-xl font-bold transition-opacity duration-300 group-hover:opacity-0"
+      class="absolute bottom-0 left-0 flex h-full w-full place-items-end justify-between p-3 text-xl font-bold transition-opacity duration-300 "
     >
       <div class="flex h-full w-full flex-col justify-end gap-2">
         <div class="origin-bottom-left">
@@ -53,7 +51,7 @@ const strTags = tags.map((tag: string) => slugifyStr(tag)).join("/");
             size="sm"
             class="my-2 inline-block origin-bottom-left translate-y-2 scale-75 transform text-xs font-extralight"
           />
-          <h2 class="text-2xl font-bold sm:text-2xl" transition:name={slug}>
+          <h2 class="text-base font-bold sm:text-2xl" transition:name={slug}>
             {title}
           </h2>
         </div>
@@ -67,7 +65,7 @@ const strTags = tags.map((tag: string) => slugifyStr(tag)).join("/");
                 return (
                   <Icon
                     transition:name={slug + ":stack:" + name}
-                    class={"sm:size-8"}
+                    class={"sm:size-8 size-5"}
                     name={icon}
                   />
                 );

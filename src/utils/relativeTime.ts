@@ -1,7 +1,7 @@
-export default function getRelativeTime(date: Date) {
+export default function getRelativeTime(time: number) {
     const rtf = new Intl.RelativeTimeFormat('en', { numeric: 'auto', style:"long"  });
     const now = new Date();
-    const diff = date.getTime() - now.getTime();
+    const diff = time - now.getTime();
     
     const seconds = Math.round(diff / 1000);
     const minutes = Math.round(diff / (1000 * 60));
